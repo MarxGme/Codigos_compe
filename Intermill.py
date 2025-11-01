@@ -15,17 +15,17 @@ def solve():
     it = iter(data)
     n = int(next(it)); w = float(next(it))
     mills = []
-    max_t = 0
-    min_p = None
+    min_time_single = None
     for _ in range(n):
         p = float(next(it)); t = float(next(it))
         mills.append((p, t))
-        if t > max_t: max_t = t
-        if min_p is None or p < min_p: min_p = p
+        candidate = 2.0 * t + (w / p)
+        if min_time_single is None or candidate < min_time_single:
+            min_time_single = candidate
 
-    # Cota superior segura: todo el viaje más el tiempo si solo usáramos el molino más lento
+    # Cota superior segura: enviar todo el trigo al mejor molino individual
     lo = 0.0
-    hi = 2.0 * max_t + (w / min_p) + 1.0  # margen
+    hi = min_time_single
 
     for _ in range(100):  # suficiente para 1e-9
         mid = (lo + hi) / 2.0
